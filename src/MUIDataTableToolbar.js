@@ -101,8 +101,10 @@ class MUIDataTableToolbar extends React.Component {
 
     /* taken from react-csv */
     const csv = `${CSVHead}\n${CSVBody}`;
-    const blob = new Blob([csv], { type: "text/csv" });
-    const dataURI = `data:text/csv;charset=utf-8,${csv}`;
+    const BOM = "\uFEFF";
+    const csvData = BOM + csv;
+    const blob = new Blob([csvData], { type: "text/csv" });
+    const dataURI = `data:text/csv;charset=utf-8,${csvData}`;
 
     const URL = window.URL || window.webkitURL;
     const downloadURI = typeof URL.createObjectURL === "undefined" ? dataURI : URL.createObjectURL(blob);
